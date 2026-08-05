@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amelia-1 EDC Data Dashboard</title>
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <link rel="shortcut icon" href="SynDevRxFavicon.png" type="image/x-icon" />
+    
+    <style>
+        /* Base Reset and Full-Screen Flexbox Layout */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #666666;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Header Area Wrapper */
+        .header-container {
+            display: flex;
+            flex-direction: column;
+            flex: 0 0 auto;
+            background-color: #666666;
+        }
+
+        /* Branding Strip (Title, Version, Logo) */
+        .header-upper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 12px;
+            background-color: #88dddd;
+        }
+
+        .header-upper h1 {
+            margin: 0;
+            font-size: 1.3rem;
+            color: #000000;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .header-upper .version-tag {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #333333;
+            margin: 0 10px;
+            white-space: nowrap;
+        }
+
+        .header-upper img {
+            max-height: 32px;
+            width: auto;
+        }
+
+        /* Navigation Box */
+        .navigation-box {
+            background-color: #ff00ff;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* --- DESKTOP VIEW: Row of Tabs (Hidden on Mobile) --- */
+        .desktop-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .desktop-tabs div {
+            flex: 1 1 auto;
+            text-align: center;
+            padding: 12px 10px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #000000;
+            cursor: pointer;
+            border-right: 1px solid rgba(0,0,0,0.1);
+            transition: background-color 0.2s ease;
+        }
+
+        .desktop-tabs div:last-child {
+            border-right: none;
+        }
+
+        .desktop-tabs div:hover {
+            background-color: #ee88ee;
+        }
+
+        .desktop-tabs div.active {
+            background-color: #aaaaaa;
+        }
+
+        /* --- MOBILE VIEW: Native Compact Dropdown (Hidden on Laptop) --- */
+        .mobile-dropdown-container {
+            display: none;
+            padding: 6px 12px;
+            background-color: #ff00ff;
+        }
+
+        .mobile-nav-select {
+            width: 100%;
+            padding: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 4px;
+            border: 1px solid #666666;
+            background-color: #88dddd;
+            color: #000000;
+            cursor: pointer;
+        }
+
+        /* Main Full-Window Content Area */
+        .content-body {
+            flex: 1 1 auto;
+            min-height: 0;
+            padding: 8px;
+            background-color: #666666;
+        }
+
+        .content-body iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: #ffffff;
+            border-radius: 4px;
+        }
+
+        /* --- RESPONSIVE CROSSOVER BREAKPOINT --- */
+        @media (max-width: 1024px) {
+            /* Hide the desktop row entirely */
+            .desktop-tabs {
+                display: none !important;
+            }
+
+            /* Display the ultra-compact mobile selection dropdown */
+            .mobile-dropdown-container {
+                display: block;
+            }
+
+            /* Shrink headers so landscape phone height isn't wasted */
+            .header-upper h1 {
+                font-size: 1.05rem;
+                text-align: left;
+            }
+            
+            .header-upper img {
+                max-height: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <div class="header-upper">
+            <h1>Amelia-1 Efficacy Data of 7/21/26 1:00 am ET</h1>
+            <span class="version-tag">v1.002</span>
+            <img src="SynDevRxLogo.jpg" alt="SynDevRx Logo">
+        </div>
+
+        <div class="navigation-box">
+            
+            <div class="desktop-tabs" id="desktopNav">
+                <div data-file="LabValues.html" class="active">Lab Values (Absolute)</div>
+                <div data-file="LabValuesPct.html">Lab Values (% Change)</div>
+                <div data-file="tab_km.html">Kaplan-Meier (Real)</div>
+                <div data-file="play_with_kaplan_meier.html">Kaplan-Meier (Play)</div>
+                <div data-file="TabMMRM.html">MMRM Graphs</div>
+                <div data-file="TabMMRM_AllGroups.html">MMRM Graphs (all groups)</div>
+                <div data-file="tab_mmrm_efficacy.html">MMRM Efficacy Comparisons</div>
+                <div data-file="TabPP.html">Lab Values (Per Patient)</div>
+                <div data-file="TBA_toplevel.html">Tumor Burden Assessments and Swimmers Plots</div>
+                <div data-file="ScatterplotPctChange.html">Scatterplots</div>
+                <div data-file="AEs.html">Adverse Events</div>
+                <div data-file="Exposure_toplevel.html">Exposure</div>
+                <div data-file="ctdna_toplevel.html">ctDNA</div>
+                <div data-file="predict_outcomes_current.html">Outcomes Correlation</div>
+                <div data-file="predict_outcomes_current_multiple.html">Outcomes Side-by-Side</div>
+                <div data-file="relational_toplevel.html">Tables & Listings</div>
+            </div>
+
+            <div class="mobile-dropdown-container">
+                <select class="mobile-nav-select" id="mobileNav">
+                    <option value="LabValues.html">A: Lab Values (Absolute Values)</option>
+                    <option value="LabValuesPct.html">B: Lab Values (% Change from baseline)</option>
+                    <option value="tab_km.html">C: Kaplan-Meier (real data)</option>
+                    <option value="play_with_kaplan_meier.html">D: Kaplan-Meier (play)</option>
+                    <option value="TabMMRM.html">E: MMRM Analyte Graphs</option>
+                    <div data-file="TabMMRM_AllGroups.html">MMRM Graphs (all groups)</div>
+                    <option value="TabPP.html">F: Lab Values (Per Patient)</option>
+                    <option value="TBA_toplevel.html">G: Tumor Assessments</option>
+                    <option value="ScatterplotPctChange.html">H: Scatterplots (Baseline and % Change)</option>
+                    <option value="AEs.html">I: Adverse Events</option>
+                    <option value="Exposure_toplevel.html">J: Exposure</option>
+                    <option value="ctdna_toplevel.html">K: ctDNA</option>
+                    <option value="predict_outcomes_current.html">L: Correlation With Outcomes</option>
+                    <option value="predict_outcomes_current_multiple.html">M: Correlation With Outcomes, Side by Side</option>
+                    <option value="relational_toplevel.html">N: Tables & Listings</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="content-body">
+        <iframe id="content-frame" src="LabValues.html"></iframe>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const iframe = document.getElementById('content-frame');
+            const desktopNav = document.getElementById('desktopNav');
+            const mobileNav = document.getElementById('mobileNav');
+            const desktopTabs = desktopNav.querySelectorAll('div');
+
+            // Single state controller to perfectly synchronize desktop and mobile widgets
+            function updateActiveView(targetFile) {
+                // Point iframe to chosen page
+                iframe.src = targetFile;
+
+                // Mark matching desktop link tab as active
+                desktopTabs.forEach(tab => {
+                    if(tab.getAttribute('data-file') === targetFile) {
+                        tab.classList.add('active');
+                    } else {
+                        tab.classList.remove('active');
+                    }
+                });
+
+                // Update mobile element dropdown view value
+                mobileNav.value = targetFile;
+            }
+
+            // Bind click events for computer users
+            desktopTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const selectedFile = this.getAttribute('data-file');
+                    updateActiveView(selectedFile);
+                });
+            });
+
+            // Bind change selector logic for smartphone users
+            mobileNav.addEventListener('change', function() {
+                updateActiveView(this.value);
+            });
+        });
+    </script>
+</body>
+</html>
